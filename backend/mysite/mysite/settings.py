@@ -125,3 +125,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',  # Or 'https' if your front-end uses HTTPS
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
