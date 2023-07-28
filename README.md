@@ -3,3 +3,4 @@
 python -m venv ~/venv/waitlist
 alias pyld='source ~/venv/waitlist/bin/activate'
 pyld
+python manage.py runserver 
