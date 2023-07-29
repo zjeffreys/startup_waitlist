@@ -17,4 +17,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('', include(user_router.urls)),  # Include the user views
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # path('login/', views.UserLoginView.as_view()),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 ]

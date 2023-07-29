@@ -1,146 +1,125 @@
-// import logo from './logo.svg';
-// import './App.css';
- 
-
-// import HeroesList from './components/HeroesList'; // Import the component from the components directory
-
-// const App = () => {
-//   return (
-//     <div>
-//       <h1>My Superhero App</h1>
-//       <HeroesList /> {/* Use the imported HeroesList component */}
-//     </div>
-//   );
-// };
-
-// export default App;
-
 import React, { useState } from 'react';
-import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/';
+const API_BASE_URL = 'http://localhost:8000/auth';
 
-const LoginForm = ({ setLoggedIn }) => {
-  const [loginData, setLoginData] = useState({
-    username: '',
-    password: '',
-  });
+function App() {
+  const [loginUsername, setLoginUsername] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [authToken, setAuthToken] = useState('');
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setLoginData({ ...loginData, [name]: value });
-  };
+  const [registerUsername, setRegisterUsername] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}login/`, loginData);
-      const token = response.data.access;
-      // Store the token in local storage or cookies
-      localStorage.setItem('token', token);
-      setLoggedIn(true);
+      const response = await fetch(`${API_BASE_URL}/token/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: loginUsername, password: loginPassword }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setAuthToken(data.auth_token); // Store the auth_token separately
+        setLoggedIn(true);
+        
+        // Fetch user data using Djoser's /auth/me/ endpoint.
+        const userResponse = await fetch(`${API_BASE_URL}/users/me/`, {
+          headers: {
+            'Authorization': `Token ${data.auth_token}`,
+          },
+        });
+  
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          console.log("userData after /me/ => ", userData)
+          setUserData(userData);
+        } else {
+          console.error('Error fetching user data');
+        }
+      } else {
+        console.error('Login failed');
+      }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Error during login:', error);
+    }
+  };
+  
+
+  const handleLogout = async () => {
+    try {
+      // Check if the authToken is available before making the logout request
+      if (!authToken) {
+        console.error('No auth token available. Cannot log out.');
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}/token/logout/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${authToken}`,
+        },
+      });
+
+      if (response.ok) {
+        setLoggedIn(false);
+        setAuthToken(''); // Clear the auth_token on logout
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+  
+
+  const handleRegister = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: registerUsername, password: registerPassword }),
+      });
+
+      if (response.ok) {
+        console.log('User registered successfully');
+      } else {
+        console.error('Registration failed');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input
-        type="text"
-        name="username"
-        value={loginData.username}
-        onChange={handleInputChange}
-        placeholder="Username"
-      />
-      <input
-        type="password"
-        name="password"
-        value={loginData.password}
-        onChange={handleInputChange}
-        placeholder="Password"
-      />
-      <button type="submit">Login</button>
-    </form>
-  );
-};
-
-const RegistrationForm = ({ setLoggedIn }) => {
-  const [registerData, setRegisterData] = useState({
-    username: '',
-    password: '',
-    email: '',
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setRegisterData({ ...registerData, [name]: value });
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${API_BASE_URL}register/`, registerData);
-      setLoggedIn(true);
-    } catch (error) {
-      console.error('Registration failed:', error);
-    }
-  };
-
-  return (
-    <form onSubmit={handleRegister}>
-      <input
-        type="text"
-        name="username"
-        value={registerData.username}
-        onChange={handleInputChange}
-        placeholder="Username"
-      />
-      <input
-        type="password"
-        name="password"
-        value={registerData.password}
-        onChange={handleInputChange}
-        placeholder="Password"
-      />
-      <input
-        type="email"
-        name="email"
-        value={registerData.email}
-        onChange={handleInputChange}
-        placeholder="Email"
-      />
-      <button type="submit">Register</button>
-    </form>
-  );
-};
-
-const Projects = () => {
-  return (
     <div>
-      <h2>Welcome to Projects</h2>
-      {/* Your Projects component content here */}
-    </div>
-  );
-};
-
-const App = () => {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  return (
-    <div>
-      {!isLoggedIn ? (
+      {loggedIn ? (
         <div>
-          <h2>Login</h2>
-          <LoginForm setLoggedIn={setLoggedIn} />
-          <h2>Register</h2>
-          <RegistrationForm setLoggedIn={setLoggedIn} />
+          <p>Logged In successfully as: {userData ? userData.username : ''}</p>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
-        <Projects />
+        <div>
+          <h2>Login</h2>
+          <input type="text" placeholder="Username" onChange={(e) => setLoginUsername(e.target.value)} />
+          <input type="password" placeholder="Password" onChange={(e) => setLoginPassword(e.target.value)} />
+          <button onClick={handleLogin}>Login</button>
+
+          <h2>Register</h2>
+          <input type="text" placeholder="Username" onChange={(e) => setRegisterUsername(e.target.value)} />
+          <input type="password" placeholder="Password" onChange={(e) => setRegisterPassword(e.target.value)} />
+          <button onClick={handleRegister}>Register</button>
+        </div>
       )}
     </div>
   );
-};
+}
 
 export default App;

@@ -1,6 +1,8 @@
 # serializers.py
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from django.contrib.auth import authenticate, login
+
 
 from .models import Hero
 
@@ -18,3 +20,18 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+    
+class UserLoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
+    def validate(self, data):
+        username = data['username']
+        password = data['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            return data
+        else:
+            raise serializers.ValidationError('Invalid username or password')

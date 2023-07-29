@@ -4,9 +4,12 @@ from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserLoginSerializer
 from rest_framework import status
 from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 from .serializers import HeroSerializer
@@ -24,18 +27,22 @@ class UserRegisterView(viewsets.ModelViewSet):
 
 
 class UserLoginView(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+    serializer_class = UserLoginSerializer
 
-    def list(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            serializer = self.get_serializer(user)
-            return Response(serializer.data)
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            login(request, serializer.validated_data['user'])
+            return Response(status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+def get_user_info(request):
+    user = request.user
+    # Customize the response as per your user model. Assuming you have a custom User model.
+    user_data = {
+        'username': user.username,
+        'email': user.email,
+        # Add more fields as needed
+    }
+    return Response(user_data)
