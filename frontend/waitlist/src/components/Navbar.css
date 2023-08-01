@@ -1,0 +1,33 @@
+/* Navbar.css */
+
+/* Global styles */
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Navigation bar */
+  .navbar {
+    background: linear-gradient(45deg, #ff69b4, #9370db); /* Pink to purple gradient at 45-degree angle */
+    color: #fff;
+  }
+  
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Kalam', cursive;
+    font-family: 'Mallanna', sans-serif;
+  }
+  
+  /* Mobile menu styles (optional) */
+  /* Add your mobile menu styling here */
+  
