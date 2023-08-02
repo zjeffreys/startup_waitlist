@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Authentication from './components/Authentication';
 import LandingPage from './components/LandingPage'; // Import the LandingPage component
 import Navbar from './components/Navbar';
+import Waitlists from './components/Waitlists';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -29,6 +30,7 @@ function App() {
       <Navbar />
       {loggedIn ? (
         <div>
+          <Waitlists/>
           <p>Logged In successfully as: {authToken}</p>
           <button onClick={handleLogout}>Logout</button>
         </div>
