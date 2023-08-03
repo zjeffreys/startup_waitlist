@@ -11,6 +11,17 @@ body {
     background: linear-gradient(45deg, #ff69b4, #9370db); /* Pink to purple gradient at 45-degree angle */
     color: #fff;
   }
+
+  .logo{
+    text-decoration: none;
+    color: #fff;
+  }
+  .logout{
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    color: #fff;
+  }
   
   .navbar-container {
     display: flex;

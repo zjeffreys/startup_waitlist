@@ -127,6 +127,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',  # Or 'https' if your front-end uses HTTPS
 )
 
+CORS_ORIGIN_ALLOW_ALL = True #just for testing
+
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.TokenAuthentication',

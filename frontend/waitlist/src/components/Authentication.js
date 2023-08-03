@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
 import './Authentication.css';
+import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = 'http://localhost:8000/auth';
 
-const Authentication = ({ onLogin }) => {
+const Authentication = () => {
+  const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(true);
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [authToken, setAuthToken] = useState('');
+
 
   const [registerUsername, setRegisterUsername] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
 
+  const isSessionTokenSet = () => {
+    const sessionToken = sessionStorage.getItem('token');
+    return !!sessionToken; // Return true if the session token is set, otherwise false
+  }
+
   const handleLogin = async () => {
+    if(isSessionTokenSet()){
+      navigate('/my-waitlists', { replace: true });
+      window.location.reload();
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/token/login/`, {
         method: 'POST',
@@ -26,23 +36,11 @@ const Authentication = ({ onLogin }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setAuthToken(data.auth_token);
-        setLoggedIn(true);
-
-        onLogin(data.auth_token);
-
-        const userResponse = await fetch(`${API_BASE_URL}/users/me/`, {
-          headers: {
-            'Authorization': `Token ${data.auth_token}`,
-          },
-        });
-
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          setUserData(userData);
-        } else {
-          console.error('Error fetching user data');
-        }
+        sessionStorage.setItem('token', JSON.stringify(data.auth_token))
+        console.log("Successfully Logged in")
+        navigate('/my-waitlists', { replace: true })
+        window.location.reload()
+        
       } else {
         console.error('Login failed');
       }
@@ -51,31 +49,31 @@ const Authentication = ({ onLogin }) => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      if (!authToken) {
-        console.error('No auth token available. Cannot log out.');
-        return;
-      }
+  // const handleLogout = async () => {
+  //   try {
+  //     if (!authToken) {
+  //       console.error('No auth token available. Cannot log out.');
+  //       return;
+  //     }
 
-      const response = await fetch(`${API_BASE_URL}/token/logout/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${authToken}`,
-        },
-      });
+  //     const response = await fetch(`${API_BASE_URL}/token/logout/`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Token ${authToken}`,
+  //       },
+  //     });
 
-      if (response.ok) {
-        setLoggedIn(false);
-        setAuthToken('');
-      } else {
-        console.error('Logout failed');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
+  //     if (response.ok) {
+  //       setLoggedIn(false);
+  //       setAuthToken('');
+  //     } else {
+  //       console.error('Logout failed');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during logout:', error);
+  //   }
+  // };
 
   const handleRegister = async () => {
     try {

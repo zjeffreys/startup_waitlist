@@ -1,49 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Authentication from './components/Authentication';
 import LandingPage from './components/LandingPage'; // Import the LandingPage component
 import Navbar from './components/Navbar';
 import Waitlists from './components/Waitlists';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [authToken, setAuthToken] = useState('');
-  const [showLandingPage, setShowLandingPage] = useState(true); // Initially show the Landing Page
 
-  const handleLogin = (token) => {
-    setAuthToken(token);
-    setLoggedIn(true);
-    setShowLandingPage(false); // Set showLandingPage to false on successful login
-  };
-
-  const handleLogout = () => {
-    setAuthToken('');
-    setLoggedIn(false);
-    setShowLandingPage(true); // Show the Landing Page on logout
-  };
-
-  const handleGetStarted = () => {
-    setShowLandingPage(false); // Set showLandingPage to false when "Get Started" is clicked
+  const isSessionTokenSet = () => {
+    const sessionToken = sessionStorage.getItem('token');
+    return !!sessionToken; // Return true if the session token is set, otherwise false
   };
 
   return (
     <div>
+      <BrowserRouter>
       <Navbar />
-      {loggedIn ? (
-        <div>
-          <Waitlists/>
-          <p>Logged In successfully as: {authToken}</p>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : showLandingPage ? ( // Show the LandingPage component when showLandingPage is true
-        <div>
-          <LandingPage handleGetStarted={handleGetStarted} /> {/* Pass handleGetStarted as a prop */}
-        </div>
-      ) : (
-        <div>
-          <Authentication onLogin={handleLogin} />
-        </div>
-      )}
+        <Routes>
+          <Route path="/" element={<LandingPage/>} />
+          <Route path="/authentication" element={<Authentication />}/>
+          <Route path="/my-waitlists" element={isSessionTokenSet() ? <Waitlists />: <Authentication/>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
+  
   );
 }
 

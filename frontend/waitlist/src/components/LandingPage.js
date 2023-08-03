@@ -1,7 +1,10 @@
 import React from 'react';
 import './LandingPage.css'; // Import the CSS file for styling
+import { useNavigate } from 'react-router-dom';
 
-const LandingPage = ({ handleGetStarted }) => {
+const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="landing-page">
       <header className="hero">
@@ -11,7 +14,7 @@ const LandingPage = ({ handleGetStarted }) => {
             Just tell us what your startup does, add a short video, and we create a landing page so you can begin collecting emails!
           </p>
           <div className="cta">
-            <button className="cta-button" onClick={handleGetStarted}>Get Started</button> {/* Use handleGetStarted prop as onClick handler */}
+            <button className="cta-button" onClick={() => navigate('/authentication', { replace: true })}>Get Started</button> {/* Use handleGetStarted prop as onClick handler */}
           </div>
         </div>
         <div className="hero-video">
