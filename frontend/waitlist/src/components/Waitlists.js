@@ -7,23 +7,6 @@ const Waitlists = () => {
   // State for current user data
   const [userData, setUserData] = useState(null);
 
-  // Sample data for current waitlists (replace with your data)
-  const [waitlists, setWaitlists] = useState([
-    { id: 1, name: 'Waitlist A/B Test 1' },
-    { id: 2, name: 'Waitlist A/B Test 2' },
-    // Add more waitlist objects as needed
-  ]);
-
-  const [newWaitlistName, setNewWaitlistName] = useState('');
-
-  const handleCreateWaitlist = () => {
-    // Add logic to create a new waitlist (e.g., make API request)
-    // and update the waitlists state with the new data
-    const newWaitlist = { id: waitlists.length + 1, name: newWaitlistName };
-    setWaitlists([...waitlists, newWaitlist]);
-    setNewWaitlistName('');
-  };
-
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (token) {
