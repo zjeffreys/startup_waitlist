@@ -7,6 +7,12 @@ from .serializers import WaitlistSerializer
 from rest_framework.exceptions import ValidationError
 
 
+class PagesViewSet(viewsets.ModelViewSet):
+    queryset = Waitlist.objects.all()
+    serializer_class = WaitlistSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Set the permission_classes to IsAuthenticatedOrReadOnly
+
+
 class WaitlistViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]  # Add this line for token-based authentication

@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage'; // Import the LandingPage co
 import Navbar from './components/Navbar';
 import Waitlists from './components/Waitlists';
 import EditWaitlist from './components/EditWaitlist'
+import UserLandingPage from './components/UserLandingPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/authentication" element={<Authentication />}/>
           <Route path="/my-waitlists" element={isSessionTokenSet() ? <Waitlists />: <Authentication/>}/>
           <Route path="/my-waitlists/edit" element={isSessionTokenSet() ? <EditWaitlist />: <Authentication/>}/>
+          <Route path="/page" element={<UserLandingPage/>}/>
         </Routes>
       </BrowserRouter>
     </div>

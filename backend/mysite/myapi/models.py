@@ -22,7 +22,7 @@ class Waitlist(models.Model):
     subheadline = models.CharField(max_length=200, default="Subheadline")
     cta = models.CharField(max_length=100, default="Call to Action")
     hero_url = models.CharField(max_length=200, default="https://www.youtube.com/watch?v=uwfav6xqBcI")
-    emails = models.ManyToManyField(Email)
+    emails = models.ManyToManyField(Email, blank=True)
 
     def __str__(self):
         return self.name
