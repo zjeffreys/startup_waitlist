@@ -139,7 +139,7 @@ const Waitlists = () => {
                 <button className="copy-url-button" onClick={() => handleCopyURL(API_BASE_URL + waitlist.name)}>Copy Link</button>
               </td>
               <td>
-                <a href={`/my-waitlists/edit?waitlistId=${waitlist.name}`}>Edit</a>
+                <a href={`/my-waitlists/edit?waitlistId=${waitlist.id}`}>Edit</a>
               </td>
             </tr>
           ))}

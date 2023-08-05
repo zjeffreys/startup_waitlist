@@ -1,0 +1,99 @@
+.waitlist-container {
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .waitlist-container a {
+    text-align: left;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .waitlist-container h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  
+  .waitlist-container p {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .waitlist-container form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .waitlist-container label {
+    margin-bottom: 10px;
+    width: 100%;
+    font-weight: bold;
+  }
+  
+  .waitlist-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box; /* Add this line to include padding and border in the width calculation */
+  }
+  
+  .waitlist-container button[type="submit"] {
+    padding: 8px;
+    background: linear-gradient(45deg, #ff69b4, #9370db);
+    /* Pink to purple gradient at 45-degree angle */
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 0;
+    /* Don't grow to take extra space */
+  }
+  
+  .waitlist-container button[type="submit"]:hover {
+    background: linear-gradient(45deg, #9370db, #ff69b4);
+    /* Pink to purple gradient at 45-degree angle */
+  }
+  
+  /* Responsive styles for mobile devices */
+  @media screen and (max-width: 600px) {
+    .waitlist-container {
+      padding: 10px;
+      margin-top: 0;
+    }
+  
+    .waitlist-container form {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .waitlist-container input[type="text"],
+    .waitlist-container button[type="submit"] {
+      margin-right: 0;
+      margin-bottom: 10px;
+      flex: 0;
+      /* Reset flex values for mobile */
+    }
+  
+    .waitlist-container button[type="submit"] {
+      width: 100%;
+      /* Make the button full-width for mobile */
+    }
+  
+    .waitlists-table {
+      overflow-x: auto;
+    }
+  }
+  
