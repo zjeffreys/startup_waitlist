@@ -1,1 +1,70 @@
-# views go hereß
+from rest_framework import viewsets, permissions, status
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.authentication import TokenAuthentication
+from .models import Waitlist
+from .serializers import WaitlistSerializer
+from rest_framework.exceptions import ValidationError
+
+
+class WaitlistViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [TokenAuthentication]  # Add this line for token-based authentication
+
+
+    def get_queryset(self):
+        # Filter the queryset based on the currently authenticated user
+        user = self.request.user
+        return Waitlist.objects.filter(user=user)
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = WaitlistSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    
+    def create(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            user = request.user
+            data = request.data.copy()
+            data['user'] = user.id  # Use user.id instead of user object
+        else:
+            return Response({"error": "User not authenticated."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = WaitlistSerializer(data=data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except ValidationError as e:
+            print(e.detail)  # Print the validation error details
+            return Response({"error": "Invalid data provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
+
+
+
+    
+    def retrieve(self, request, pk=None):
+        queryset = self.get_queryset()
+        waitlist = get_object_or_404(queryset, pk=pk)
+        serializer = WaitlistSerializer(waitlist)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        queryset = self.get_queryset()
+        waitlist = get_object_or_404(queryset, pk=pk)
+        serializer = WaitlistSerializer(waitlist, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, pk=None):
+        queryset = self.get_queryset()
+        waitlist = get_object_or_404(queryset, pk=pk)
+        waitlist.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

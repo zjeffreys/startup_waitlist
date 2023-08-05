@@ -1,0 +1,135 @@
+.waitlists-container {
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top:20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Make the container a column flex container */
+    align-items: center; /* Center content horizontally */
+  }
+  
+  .waitlists-container h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  
+  .waitlists-container p {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .waitlists-container form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Take the full width of the container */
+  }
+  
+  .waitlists-container label {
+    margin-bottom: 10px;
+  }
+  
+  .waitlists-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    flex: 1; /* Take available space in the container */
+    margin-bottom: 10px;
+  }
+  
+  .waitlists-container button[type="submit"] {
+    padding: 8px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 0; /* Don't grow to take extra space */
+  }
+  
+  .waitlists-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .waitlists-table th, .waitlists-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .waitlists-table th {
+    background-color: #f0f0f0;
+  }
+  
+  .waitlists-table button {
+    font-weight: bold;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.209);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .create-new-waitlist{
+    padding: 20px;
+  }
+  .create-new-waitlist {
+    width: 100%;
+  }
+  .create-new-waitlist button{
+    border: none;
+    /* background-color: #007bff; */
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 3px;
+    width: 100%;
+    background: linear-gradient(45deg, #9370db,#ff69b4); /* Pink to purple gradient at 45-degree angle */
+  }
+  .create-new-waitlist button:hover{
+    background: linear-gradient(45deg,#ff69b4,  #9370db); /* Pink to purple gradient at 45-degree angle */
+  }
+  .create-new-waitlist .toggle-form:hover{
+    background: linear-gradient(45deg,#ff69b4,  #9370db); /* Pink to purple gradient at 45-degree angle */
+    /* padding: 0px; */
+  }
+
+  /* Responsive styles for mobile devices */
+  @media screen and (max-width: 600px) {
+    .waitlists-container {
+      padding: 10px;
+      margin-top:0;
+    }
+    
+    .waitlists-container form {
+      flex-direction: column;
+      width: 100%;
+    }
+    
+    .waitlists-container input[type="text"],
+    .waitlists-container button[type="submit"] {
+      margin-right: 0;
+      margin-bottom: 10px;
+      flex: 0; /* Reset flex values for mobile */
+    }
+    
+    .waitlists-container button[type="submit"] {
+      width: 100%; /* Make the button full-width for mobile */
+    }
+    
+    .waitlists-table {
+      overflow-x: auto;
+    }
+  }
+  
