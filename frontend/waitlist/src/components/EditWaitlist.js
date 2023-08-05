@@ -50,12 +50,13 @@ const EditWaitlist = () => {
     useEffect(() => {
         if (waitlist) {
             // Populate the form with existing data
+            console.log(waitlist)
             setFormState({
                 name: waitlist.name,
                 headline: waitlist.headline,
                 subheadline: waitlist.subheadline,
                 cta: waitlist.cta,
-                heroImageOrVideoUrl: waitlist.heroImageOrVideoUrl,
+                heroImageOrVideoUrl: waitlist.hero_url,
             });
         }
     }, [waitlist]);

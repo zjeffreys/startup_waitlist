@@ -7,6 +7,6 @@ from .models import Waitlist
 class WaitlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Waitlist
-        fields = ['id', 'user', 'name']
+        fields = ['id', 'user', 'name', 'headline', 'subheadline', 'cta', 'hero_url']
 
 
