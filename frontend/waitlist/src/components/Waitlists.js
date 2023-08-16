@@ -8,6 +8,8 @@ const Waitlists = () => {
   const [newWaitlistName, setNewWaitlistName] = useState('');
   const [waitlists, setWaitlists] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [waitlistError, setWaitlistError] = useState('');
+
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -46,7 +48,7 @@ const Waitlists = () => {
             const waitlistData = await waitlistResponse.json();
             setWaitlists(waitlistData);
           } else {
-            console.error('Error fetching waitlists');
+            const errorData = await waitlistResponse.json();
           }
         } catch (error) {
           console.error('Error during fetching waitlists:', error);
@@ -81,6 +83,7 @@ const Waitlists = () => {
 
       if (response.ok) {
         console.log('Waitlist created successfully');
+        setWaitlistError('Waitlist created successfully'); // Assuming the error message is in the "detail" field
         const updatedWaitlistResponse = await fetch('http://localhost:8000/waitlists/', {
           headers: {
             'Authorization': `Token ${cleanedToken}`,
@@ -92,15 +95,19 @@ const Waitlists = () => {
           setWaitlists(updatedWaitlistData);
         } else {
           console.error('Error fetching updated waitlists');
+          setWaitlistError('Error fetching updated waitlists'); // Assuming the error message is in the "detail" field
         }
 
         setNewWaitlistName('');
         setShowForm(false);
       } else {
         console.error('Error creating waitlist');
+        setWaitlistError('Name is already taken.'); // Assuming the error message is in the "detail" field
       }
     } catch (error) {
       console.error('Error during waitlist creation:', error);
+      setWaitlistError('Error during waitlist creation:', error); // Assuming the error message is in the "detail" field
+
     }
   };
 
@@ -136,7 +143,7 @@ const Waitlists = () => {
             <tr key={waitlist.id}>
               <td>{waitlist.name}</td>
               <td>
-                <button className="copy-url-button" onClick={() => handleCopyURL(API_BASE_URL + waitlist.name)}>Copy Link</button>
+                <button className="copy-url-button" onClick={() => handleCopyURL('http://localhost:3000/page?name=' + waitlist.name)}>Copy Link</button>
               </td>
               <td>
                 <a href={`/my-waitlists/edit?waitlistId=${waitlist.id}`}>Edit</a>
@@ -148,11 +155,14 @@ const Waitlists = () => {
       <div className='create-new-waitlist'>
         {showForm ? (
           <form onSubmit={handleCreateWaitlist}>
+            {waitlistError && <p className="error-message">{waitlistError}</p>}
               <input
                 type="text"
                 value={newWaitlistName}
                 onChange={(e) => setNewWaitlistName(e.target.value)}
                 placeholder='Waitlist Name:'
+                pattern="^\S+$"  // Regular expression to disallow spaces
+                title="No spaces are allowed"
                 required
               />
             <button type="submit">Create Waitlist</button>

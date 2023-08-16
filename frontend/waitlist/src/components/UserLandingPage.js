@@ -16,8 +16,8 @@ const UserLandingPage = () => {
     const fetchData = async () => {
       try {
         console.log("param: " + name )
-        // const waitlistResponse = await fetch(`http://localhost:8000/pages?name=${name}`, {});
-        const waitlistResponse = await fetch(`http://127.0.0.1:8000/pages?name=test123`, {});
+        const waitlistResponse = await fetch(`http://localhost:8000/pages?name=${name}`, {});
+        // const waitlistResponse = await fetch(`http://127.0.0.1:8000/pages?name=test123`, {});
 
 
         if (waitlistResponse.ok) {

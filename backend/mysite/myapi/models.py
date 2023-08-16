@@ -17,7 +17,7 @@ class Email(models.Model):
     
 class Waitlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     headline = models.CharField(max_length=200, default="Headline")
     subheadline = models.CharField(max_length=200, default="Subheadline")
     cta = models.CharField(max_length=100, default="Call to Action")
