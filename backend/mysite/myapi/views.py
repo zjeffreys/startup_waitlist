@@ -8,10 +8,24 @@ from rest_framework.exceptions import ValidationError
 
 
 class PagesViewSet(viewsets.ModelViewSet):
-    queryset = Waitlist.objects.all()
     serializer_class = WaitlistSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Set the permission_classes to IsAuthenticatedOrReadOnly
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def list(self, request, *args, **kwargs):
+        name = request.query_params.get('name')
+        
+        if name:
+            queryset = Waitlist.objects.filter(name__icontains=name)
+            first_object = queryset.first()
+            
+            if first_object:
+                serialized_data = self.serializer_class(first_object).data
+                return Response(serialized_data)
+            else:
+                return Response({'message': 'No matching object found'}, status=404)
+        
+        return Response([])
+    
 
 class WaitlistViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]

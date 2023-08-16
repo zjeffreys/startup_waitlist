@@ -6,18 +6,24 @@ const UserLandingPage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const [waitlist, setWaitlist] = useState(null);
-  const waitlistId = params.get('waitlistId');
+  const name = params.get('name');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [email, setEmail] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const waitlistResponse = await fetch(`http://localhost:8000/pages/${waitlistId}`, {});
+        console.log("param: " + name )
+        // const waitlistResponse = await fetch(`http://localhost:8000/pages?name=${name}`, {});
+        const waitlistResponse = await fetch(`http://127.0.0.1:8000/pages?name=test123`, {});
+
 
         if (waitlistResponse.ok) {
           const waitlistData = await waitlistResponse.json();
           setWaitlist(waitlistData);
+          console.log("Data: " + waitlistData)
         } else {
           setError('Error fetching waitlist');
         }
@@ -30,7 +36,31 @@ const UserLandingPage = () => {
     };
 
     fetchData();
-  }, [waitlistId]);
+  }, [name]);
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+
+    // Send the email to localhost:8000
+    try {
+      const response = await fetch('http://localhost:8000/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        // Email sent successfully
+        console.log('Email sent successfully');
+      } else {
+        console.error('Error sending email');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
 
   return (
     <div className="landing-page">
@@ -41,6 +71,19 @@ const UserLandingPage = () => {
           <h2 className="subheadline">{waitlist.subheadline}</h2>
           <div className="call-to-action">
             <p>{waitlist.cta}</p>
+            <div className="email-form">
+            <h3>Subscribe to our email list:</h3>
+            <form onSubmit={handleEmailSubmit}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
             <div className="youtube-video">
               <iframe
                 width="560"
