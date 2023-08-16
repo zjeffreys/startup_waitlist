@@ -9,6 +9,7 @@ const EditWaitlist = () => {
     const [waitlist, setWaitlist] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [emails, setEmails] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,6 +59,8 @@ const EditWaitlist = () => {
                 cta: waitlist.cta,
                 heroImageOrVideoUrl: waitlist.hero_url,
             });
+            setEmails(waitlist.emails);
+
         }
     }, [waitlist]);
 
@@ -85,32 +88,42 @@ const EditWaitlist = () => {
     }
 
     return (
-        <div className='waitlist-container'>
-            <a href='/my-waitlists'>Back</a>
-            <h2>Edit Waitlist</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Name
-                    <input type="text" name="name" value={formState.name} onChange={handleInputChange} />
-                </label>
-                <label>
-                    Headline
-                    <input type="text" name="headline" value={formState.headline} onChange={handleInputChange} />
-                </label>
-                <label>
-                    Subheadline
-                    <input type="text" name="subheadline" value={formState.subheadline} onChange={handleInputChange} />
-                </label>
-                <label>
-                    Call to Action
-                    <input type="text" name="cta" value={formState.cta} onChange={handleInputChange} />
-                </label>
-                <label>
-                    Hero Image or Video URL
-                    <input type="text" name="heroImageOrVideoUrl" value={formState.heroImageOrVideoUrl} onChange={handleInputChange} />
-                </label>
-                <button type="submit">Save Changes</button>
-            </form>
+        <div>
+            <div className='waitlist-container'>
+                <a href='/my-waitlists'>Back</a>
+                <h2>Edit Waitlist</h2>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Name
+                        <input type="text" name="name" value={formState.name} onChange={handleInputChange} />
+                    </label>
+                    <label>
+                        Headline
+                        <input type="text" name="headline" value={formState.headline} onChange={handleInputChange} />
+                    </label>
+                    <label>
+                        Subheadline
+                        <input type="text" name="subheadline" value={formState.subheadline} onChange={handleInputChange} />
+                    </label>
+                    <label>
+                        Call to Action
+                        <input type="text" name="cta" value={formState.cta} onChange={handleInputChange} />
+                    </label>
+                    <label>
+                        Hero Image or Video URL
+                        <input type="text" name="heroImageOrVideoUrl" value={formState.heroImageOrVideoUrl} onChange={handleInputChange} />
+                    </label>
+                    <button type="submit">Save Changes</button>
+                </form>
+            </div>
+            <div className="waitlist-container">
+                <h3>Emails:</h3>
+                <ul>
+                    {emails.map((email, index) => (
+                        <li key={index}>{email}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };

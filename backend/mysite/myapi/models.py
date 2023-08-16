@@ -9,7 +9,7 @@ class Hero(models.Model):
         return self.name
 
 class Email(models.Model):
-    email_address = models.EmailField(unique=True)
+    email_address = models.EmailField(unique=False)
 
     def __str__(self):
         return self.email_address

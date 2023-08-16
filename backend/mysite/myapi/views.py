@@ -2,9 +2,10 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import TokenAuthentication
-from .models import Waitlist
+from .models import Waitlist, Email
 from .serializers import WaitlistSerializer
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import action
 
 
 class PagesViewSet(viewsets.ModelViewSet):
@@ -26,6 +27,19 @@ class PagesViewSet(viewsets.ModelViewSet):
         
         return Response([])
     
+    
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        waitlistId = request.data.get('waitlistId')
+       
+        if email and waitlistId:
+            email_model = Email.objects.create(email_address=email)
+            waitlist_model = Waitlist.objects.get(id=waitlistId)
+            waitlist_model.emails.add(email_model)
+            waitlist_model.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': 'Email and waitlistId are required'}, status=status.HTTP_400_BAD_REQUEST)
 
 class WaitlistViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
