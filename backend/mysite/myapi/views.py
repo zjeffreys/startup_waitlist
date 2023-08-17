@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 
 class PagesViewSet(viewsets.ModelViewSet):
     serializer_class = WaitlistSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]
 
     def list(self, request, *args, **kwargs):
         print('list called')

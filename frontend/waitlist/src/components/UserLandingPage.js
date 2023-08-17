@@ -43,12 +43,16 @@ const UserLandingPage = () => {
 
     // Send the email to localhost:8000
     try {
-      const response = await fetch('http://localhost:8000/send-email', {
+      console.log(`sending email: ${email}, waitlist_id: ${waitlist.id}`);
+      const response = await fetch('http://localhost:8000/pages/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ 
+          email: email,
+          waitlistId: waitlist.id, // Replace with the actual waitlist ID
+        }),
       });
 
       if (response.ok) {
