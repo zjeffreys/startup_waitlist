@@ -13,6 +13,7 @@ class PagesViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def list(self, request, *args, **kwargs):
+        print('list called')
         name = request.query_params.get('name')
         
         if name:
@@ -28,7 +29,8 @@ class PagesViewSet(viewsets.ModelViewSet):
         return Response([])
     
     
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
+        print("Post called")
         email = request.data.get('email')
         waitlistId = request.data.get('waitlistId')
        
@@ -37,6 +39,7 @@ class PagesViewSet(viewsets.ModelViewSet):
             waitlist_model = Waitlist.objects.get(id=waitlistId)
             waitlist_model.emails.add(email_model)
             waitlist_model.save()
+            print(f"Successfully saved {email} to {waitlist_model.name}")
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response({'message': 'Email and waitlistId are required'}, status=status.HTTP_400_BAD_REQUEST)
