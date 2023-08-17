@@ -74,9 +74,46 @@ const EditWaitlist = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Here you can make an API call to update the waitlist with the new formState data
-        // For simplicity, let's just log the updated state here
-        console.log(formState);
+    
+        try {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                console.error('Token not available');
+                return;
+            }
+    
+            const cleanedToken = token.replace(/^"(.*)"$/, '$1');
+    
+            const updatedWaitlist = {
+                name: formState.name,
+                headline: formState.headline,
+                subheadline: formState.subheadline,
+                cta: formState.cta,
+                hero_url: formState.heroImageOrVideoUrl,
+                emails: emails, // You might need to adjust this based on your data structure
+            };
+    
+            const url = `http://localhost:8000/waitlists/${waitlistId}/update_waitlist/`;
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${cleanedToken}`,
+                },
+                body: JSON.stringify(updatedWaitlist),
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                sessionStorage.setItem('token', JSON.stringify(data.auth_token));
+                console.log('Waitlist updated successfully');
+                // You might want to navigate or perform other actions here
+            } else {
+                console.error('Waitlist update failed');
+            }
+        } catch (error) {
+            console.error('Error during waitlist update:', error);
+        }
     };
 
     if (loading) {
