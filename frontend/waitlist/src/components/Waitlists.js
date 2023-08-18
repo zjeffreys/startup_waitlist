@@ -143,7 +143,7 @@ const Waitlists = () => {
             <tr key={waitlist.id}>
               <td>{waitlist.name}</td>
               <td>
-                <button className="copy-url-button" onClick={() => handleCopyURL('https://startupwaitlist-production.up.railway.app/page?name=' + waitlist.name)}>Copy Link</button>
+                <button className="copy-url-button" onClick={() => handleCopyURL('https://startupwaitlist-production.up.railway.app/pages?name=' + waitlist.name)}>Copy Link</button>
               </td>
               <td>
                 <a href={`/my-waitlists/edit?waitlistId=${waitlist.id}`}>Edit</a>
