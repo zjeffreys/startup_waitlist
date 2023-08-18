@@ -66,6 +66,15 @@
     background: linear-gradient(45deg, #9370db, #ff69b4);
     /* Pink to purple gradient at 45-degree angle */
   }
+  .delete-button{
+    background-color: rgba(251, 2, 2, 0.867);
+    border-radius: 5px;
+    color: white; 
+    text-align: center;
+    width: 100%;
+    border: none;
+    padding: 8px;
+  }
   
   /* Responsive styles for mobile devices */
   @media screen and (max-width: 600px) {

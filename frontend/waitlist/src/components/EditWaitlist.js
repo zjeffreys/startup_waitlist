@@ -119,6 +119,41 @@ const EditWaitlist = () => {
         }
     };
 
+    const handleDelete = async (event) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete?');
+        if (isConfirmed) {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                console.error('Token not available');
+                return;
+            }
+    
+            const cleanedToken = token.replace(/^"(.*)"$/, '$1');
+            const url = `http://127.0.0.1:8000/waitlists/${waitlist.id}/destroy_waitlist/`;
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Token ${cleanedToken}`,
+                },
+            });
+    
+            if (response.ok) {
+                const msg = 'Waitlist Deleted'
+                console.log(msg);
+                setMessage(msg)
+                window.location.href = '/my-waitlists';
+                // You might want to navigate or perform other actions here
+            } else {
+                const msg = 'Waitlist failed to delete'
+                console.log(msg);
+                setMessage(msg)
+            }
+        } else {
+            // Code to execute when the user clicks "Cancel"
+            console.log('Delete action canceled');
+        }
+    }
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -164,6 +199,9 @@ const EditWaitlist = () => {
                         <li key={index}>{email}</li>
                     ))}
                 </ul>
+            </div>
+            <div className='waitlist-container'>
+                <button className='delete-button' onClick={handleDelete}>Save Delete</button>
             </div>
         </div>
     );
