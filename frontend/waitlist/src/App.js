@@ -21,6 +21,7 @@ function App() {
       <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage/>} />
+          <Route path="/test" element={<LandingPage/>} />
           <Route path="/authentication" element={<Authentication />}/>
           <Route path="/my-waitlists" element={isSessionTokenSet() ? <Waitlists />: <Authentication/>}/>
           <Route path="/my-waitlists/edit" element={isSessionTokenSet() ? <EditWaitlist />: <Authentication/>}/>
