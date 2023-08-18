@@ -89,11 +89,8 @@ class WaitlistViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['patch'])
     def update_waitlist(self, request, pk=None):
         queryset = self.get_queryset()
-        waitlist = get_object_or_404(queryset, pk=pk)        
-        data = request.data.copy()
-        data["user"] = waitlist.user_id
-        data["name"] = waitlist.name
-        serializer = WaitlistSerializer(waitlist, data=data)
+        waitlist = get_object_or_404(queryset, pk=pk)  
+        serializer = WaitlistSerializer(waitlist, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

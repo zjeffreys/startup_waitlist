@@ -10,6 +10,7 @@ const EditWaitlist = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [emails, setEmails] = useState([]);
+    const [message, setMessage] = useState(''); 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -85,12 +86,12 @@ const EditWaitlist = () => {
             const cleanedToken = token.replace(/^"(.*)"$/, '$1');
     
             const updatedWaitlist = {
-                name: formState.name,
+                // name: formState.name,
                 headline: formState.headline,
                 subheadline: formState.subheadline,
                 cta: formState.cta,
                 hero_url: formState.heroImageOrVideoUrl,
-                emails: emails, // You might need to adjust this based on your data structure
+                // emails: emails, // You might need to adjust this based on your data structure
             };
     
             const url = `http://localhost:8000/waitlists/${waitlistId}/update_waitlist/`;
@@ -104,12 +105,14 @@ const EditWaitlist = () => {
             });
     
             if (response.ok) {
-                const data = await response.json();
-                sessionStorage.setItem('token', JSON.stringify(data.auth_token));
-                console.log('Waitlist updated successfully');
+                const msg = 'Waitlist updated successfully'
+                console.log(msg);
+                setMessage(msg)
                 // You might want to navigate or perform other actions here
             } else {
-                console.error('Waitlist update failed');
+                const msg = 'Waitlist update failed'
+                console.log(msg);
+                setMessage(msg)
             }
         } catch (error) {
             console.error('Error during waitlist update:', error);
@@ -131,8 +134,8 @@ const EditWaitlist = () => {
                 <h2>Edit Waitlist</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
-                        Name
-                        <input type="text" name="name" value={formState.name} onChange={handleInputChange} />
+                        Name 
+                        <input type="text" name="name" value={formState.name} onChange={handleInputChange} disabled />
                     </label>
                     <label>
                         Headline
@@ -151,6 +154,7 @@ const EditWaitlist = () => {
                         <input type="text" name="heroImageOrVideoUrl" value={formState.heroImageOrVideoUrl} onChange={handleInputChange} />
                     </label>
                     <button type="submit">Save Changes</button>
+                    <p>{message}</p>
                 </form>
             </div>
             <div className="waitlist-container">
