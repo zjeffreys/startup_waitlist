@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Waitlists.css';
 
-const API_BASE_URL = 'http://localhost:8000/auth';
+const API_BASE_URL = 'https://startupwaitlist-production.up.railway.app/auth';
 
 const Waitlists = () => {
   const [userData, setUserData] = useState(null);
@@ -38,7 +38,7 @@ const Waitlists = () => {
 
       const fetchWaitlists = async () => {
         try {
-          const waitlistResponse = await fetch('http://localhost:8000/waitlists/', {
+          const waitlistResponse = await fetch('https://startupwaitlist-production.up.railway.app/waitlists/', {
             headers: {
               'Authorization': `Token ${cleanedToken}`,
             },
@@ -70,7 +70,7 @@ const Waitlists = () => {
       }
       const cleanedToken = token.replace(/^"(.*)"$/, '$1');
 
-      const response = await fetch('http://localhost:8000/waitlists/', {
+      const response = await fetch('https://startupwaitlist-production.up.railway.app/waitlists/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const Waitlists = () => {
       if (response.ok) {
         console.log('Waitlist created successfully');
         setWaitlistError('Waitlist created successfully'); // Assuming the error message is in the "detail" field
-        const updatedWaitlistResponse = await fetch('http://localhost:8000/waitlists/', {
+        const updatedWaitlistResponse = await fetch('https://startupwaitlist-production.up.railway.app/waitlists/', {
           headers: {
             'Authorization': `Token ${cleanedToken}`,
           },

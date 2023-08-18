@@ -18,7 +18,7 @@ const EditWaitlist = () => {
                 const token = sessionStorage.getItem('token');
                 if (token) {
                     const cleanedToken = token.replace(/^"(.*)"$/, '$1');
-                    const waitlistResponse = await fetch(`http://localhost:8000/waitlists/${waitlistId}`, {
+                    const waitlistResponse = await fetch(`https://startupwaitlist-production.up.railway.app/waitlists/${waitlistId}`, {
                         headers: {
                             'Authorization': `Token ${cleanedToken}`,
                         },
@@ -94,7 +94,7 @@ const EditWaitlist = () => {
                 // emails: emails, // You might need to adjust this based on your data structure
             };
     
-            const url = `http://localhost:8000/waitlists/${waitlistId}/update_waitlist/`;
+            const url = `https://startupwaitlist-production.up.railway.app/waitlists/${waitlistId}/update_waitlist/`;
             const response = await fetch(url, {
                 method: 'PATCH',
                 headers: {

@@ -5,7 +5,7 @@ const HeroesList = () => {
 
   useEffect(() => {
     // Fetch heroes from the API
-    fetch('http://localhost:8000/heroes')
+    fetch('https://startupwaitlist-production.up.railway.app/heroes')
       .then((response) => response.json())
       .then((data) => setHeroes(data))
       .catch((error) => {

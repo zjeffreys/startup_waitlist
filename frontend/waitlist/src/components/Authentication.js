@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Authentication.css';
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = 'http://localhost:8000/auth';
+const API_BASE_URL = 'https://startupwaitlist-production.up.railway.app/auth';
 
 const Authentication = () => {
   const navigate = useNavigate();

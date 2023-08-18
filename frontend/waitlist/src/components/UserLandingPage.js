@@ -16,7 +16,7 @@ const UserLandingPage = () => {
     const fetchData = async () => {
       try {
         console.log("param: " + name )
-        const waitlistResponse = await fetch(`http://localhost:8000/pages?name=${name}`, {});
+        const waitlistResponse = await fetch(`https://startupwaitlist-production.up.railway.app/pages?name=${name}`, {});
         // const waitlistResponse = await fetch(`http://127.0.0.1:8000/pages?name=test123`, {});
 
 
@@ -41,10 +41,10 @@ const UserLandingPage = () => {
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
 
-    // Send the email to localhost:8000
+    // Send the email to startupwaitlist-production.up.railway.app
     try {
       console.log(`sending email: ${email}, waitlist_id: ${waitlist.id}`);
-      const response = await fetch('http://localhost:8000/pages/', {
+      const response = await fetch('https://startupwaitlist-production.up.railway.app/pages/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
