@@ -134,7 +134,7 @@ CORS_ORIGIN_WHITELIST = (
     'https://startupwaitlist-production.up.railway.app'
 )
 
-CORS_ORIGIN_ALLOW_ALL = False #just for testing
+CORS_ORIGIN_ALLOW_ALL = True #just for testing
 
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
