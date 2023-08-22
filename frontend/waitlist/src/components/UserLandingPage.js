@@ -76,7 +76,6 @@ const UserLandingPage = () => {
           <div className="call-to-action">
             <p>{waitlist.cta}</p>
             <div className="email-form">
-            <h3>Subscribe to our email list:</h3>
             <form onSubmit={handleEmailSubmit}>
               <input
                 type="email"

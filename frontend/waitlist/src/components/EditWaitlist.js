@@ -129,7 +129,7 @@ const EditWaitlist = () => {
             }
     
             const cleanedToken = token.replace(/^"(.*)"$/, '$1');
-            const url = `http://127.0.0.1:8000/waitlists/${waitlist.id}/destroy_waitlist/`;
+            const url = `https://startupwaitlist-production.up.railway.app/waitlists/${waitlist.id}/destroy_waitlist/`;
             const response = await fetch(url, {
                 method: 'DELETE',
                 headers: {
