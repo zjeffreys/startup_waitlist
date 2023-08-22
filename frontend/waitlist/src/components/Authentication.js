@@ -9,6 +9,7 @@ const Authentication = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [msg , setSystemMsg] = useState('');
 
 
   const [registerUsername, setRegisterUsername] = useState('');
@@ -31,20 +32,23 @@ const Authentication = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: loginUsername, password: loginPassword }),
+        body: JSON.stringify({ username: loginUsername, password: loginPassword, email: loginUsername }),
       });
 
       if (response.ok) {
         const data = await response.json();
         sessionStorage.setItem('token', JSON.stringify(data.auth_token))
         console.log("Successfully Logged in")
+        setSystemMsg("Successfully Logged In")
         navigate('/my-waitlists', { replace: true })
         window.location.reload()
         
       } else {
         console.error('Login failed');
+        setSystemMsg('Login failed')
       }
     } catch (error) {
+      setSystemMsg(error)
       console.error('Error during login:', error);
     }
   };
@@ -86,16 +90,25 @@ const Authentication = () => {
       });
 
       if (response.ok) {
-        console.log('User registered successfully');
+        setSystemMsg('Registered successfully')
+        console.log('Registered successfully')
         response.json().then(data => {
-          
+
           console.log('Response data:', data);
         });
+        // navigate('/my-waitlists', { replace: true })
+        window.location.reload();
+        setLoginUsername('')
+        setLoginPassword('')
       } else {
         console.error('Registration failed');
+        setSystemMsg('Registration failed')
+
       }
     } catch (error) {
       console.error('Error during registration:', error);
+      setSystemMsg('Error during registration:', error)
+
     }
   };
 
@@ -106,11 +119,12 @@ const Authentication = () => {
   return (
     <div className="auth-container">
       <div className="auth-content">
+      <p>{msg}</p>
         {showLogin ? (
           <>
             <h2>Login</h2>
             <div className="input-container">
-              <input type="text" placeholder="Username" onChange={(e) => setLoginUsername(e.target.value)} />
+              <input type="text" placeholder="Email" onChange={(e) => setLoginUsername(e.target.value)} />
             </div>
             <div className="input-container">
               <input type="password" placeholder="Password" onChange={(e) => setLoginPassword(e.target.value)} />
@@ -125,7 +139,7 @@ const Authentication = () => {
           <>
             <h2>Register</h2>
             <div className="input-container">
-              <input type="text" placeholder="Username" onChange={(e) => setRegisterUsername(e.target.value)} />
+              <input type="email" placeholder="Email" onChange={(e) => setRegisterUsername(e.target.value)} />
             </div>
             <div className="input-container">
               <input type="password" placeholder="Password" onChange={(e) => setRegisterPassword(e.target.value)} />
