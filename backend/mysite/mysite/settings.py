@@ -130,11 +130,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',  # Or 'https' if your front-end uses HTTPS
-    ''
+    'http://localhost:3000',  
+    'https://startupwaitlist-production.up.railway.app'
 )
 
-CORS_ORIGIN_ALLOW_ALL = True #just for testing
+CORS_ORIGIN_ALLOW_ALL = False #just for testing
 
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
