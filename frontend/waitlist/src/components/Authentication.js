@@ -32,7 +32,7 @@ const Authentication = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: loginUsername, password: loginPassword, email: loginUsername }),
+        body: JSON.stringify({ username: loginUsername.toLowerCase(), password: loginPassword, email: loginUsername.toLowerCase() }),
       });
 
       if (response.ok) {
@@ -86,7 +86,7 @@ const Authentication = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: registerUsername, password: registerPassword }),
+        body: JSON.stringify({ username: registerUsername.toLowerCase(), password: registerPassword, email: loginUsername.toLowerCase() }),
       });
 
       if (response.ok) {
