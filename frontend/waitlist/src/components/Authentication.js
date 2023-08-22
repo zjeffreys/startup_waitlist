@@ -88,6 +88,7 @@ const Authentication = () => {
       if (response.ok) {
         console.log('User registered successfully');
         response.json().then(data => {
+          
           console.log('Response data:', data);
         });
       } else {
